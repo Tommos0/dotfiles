@@ -29,8 +29,14 @@ URxvt.lineSpace:            0
 ! Fonts
 URxvt.allow_bold:           false
 /* URxvt.font:                 -*-terminus-medium-r-normal-*-12-120-72-72-c-60-iso8859-1 */
-URxvt*font: xft:Monospace:pixelsize=14
-URxvt*boldFont: xft:Monospace:pixelsize=14
+!URxvt*font: xft:Monospace:pixelsize=14
+!URxvt*boldFont: xft:Monospace:pixelsize=14
+!URxvt*font: xft:Inconsolata:pixelsize=14
+!URxvt*boldFont: xft:Inconsolata:pixelsize=14
+URxvt.font:             xft:inconsolata:pixelsize=13:antialias=true:hinting=true, xft:dejavu sans mono:pixelsize=13:antialias=true,hinting=true
+URxvt.boldFont:         xft:inconsolata:pixelsize=13:antialias=true:hinting=true, xft:dejavu sans mono:pixelsize=13:antialias=true,hinting=true
+URxvt.italicFont:       xft:inconsolata:pixelsize=13:antialias=true:hinting=true, xft:dejavu sans mono:pixelsize=13:antialias=true,hinting=true
+URxvt.bolditalicFont:   xft:inconsolata:pixelsize=13:antialias=true:hinting=true, xft:dejavu sans mono:pixelsize=13:antialias=true,hinting=true
 
 ! Fix font space
 URxvt*letterSpace: -1
@@ -40,7 +46,7 @@ URxvt.scrollStyle:          rxvt
 URxvt.scrollBar:            false
 
 ! Perl extensions
-URxvt.perl-ext-common:      default,matcher
+URxvt.perl-ext-common:      default,matcher,font-size
 URxvt.matcher.button:       1
 URxvt.urlLauncher:          firefox
 
@@ -80,4 +86,5 @@ URxvt.color14:    #34E2E2
 URxvt.color15:    #EEEEEC
 
 
-URxvt.perl-ext-common: font-size
+URxvt.keysym.Control-v: eval:paste_clipboard
+URxvt.keysym.Control-x: eval:selection_to_clipboard
