@@ -33,10 +33,10 @@ URxvt.allow_bold:           false
 !URxvt*boldFont: xft:Monospace:pixelsize=14
 !URxvt*font: xft:Inconsolata:pixelsize=14
 !URxvt*boldFont: xft:Inconsolata:pixelsize=14
-URxvt.font:             xft:inconsolata:pixelsize=13:antialias=true:hinting=true, xft:dejavu sans mono:pixelsize=13:antialias=true,hinting=true
-URxvt.boldFont:         xft:inconsolata:pixelsize=13:antialias=true:hinting=true, xft:dejavu sans mono:pixelsize=13:antialias=true,hinting=true
-URxvt.italicFont:       xft:inconsolata:pixelsize=13:antialias=true:hinting=true, xft:dejavu sans mono:pixelsize=13:antialias=true,hinting=true
-URxvt.bolditalicFont:   xft:inconsolata:pixelsize=13:antialias=true:hinting=true, xft:dejavu sans mono:pixelsize=13:antialias=true,hinting=true
+URxvt.font:             xft:inconsolata:pixelsize=18:antialias=true:hinting=true, xft:dejavu sans mono:pixelsize=13:antialias=true,hinting=true
+URxvt.boldFont:         xft:inconsolata:pixelsize=18:antialias=true:hinting=true, xft:dejavu sans mono:pixelsize=13:antialias=true,hinting=true
+URxvt.italicFont:       xft:inconsolata:pixelsize=18:antialias=true:hinting=true, xft:dejavu sans mono:pixelsize=13:antialias=true,hinting=true
+URxvt.bolditalicFont:   xft:inconsolata:pixelsize=18:antialias=true:hinting=true, xft:dejavu sans mono:pixelsize=13:antialias=true,hinting=true
 
 ! Fix font space
 URxvt*letterSpace: -1
@@ -46,9 +46,10 @@ URxvt.scrollStyle:          rxvt
 URxvt.scrollBar:            false
 
 ! Perl extensions
-URxvt.perl-ext-common:      default,matcher,font-size
+URxvt.perl-ext-common:      default,matcher,resize-font,font-size
 URxvt.matcher.button:       1
-URxvt.urlLauncher:          firefox
+URxvt.urlLauncher:          /usr/bin/xdg-open 
+URxvt.url-launcher: /usr/bin/xdg-open
 
 ! Cursor
 URxvt.cursorBlink:          true

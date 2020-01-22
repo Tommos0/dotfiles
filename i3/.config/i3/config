@@ -178,7 +178,7 @@ bindsym $mod+r mode "resize"
 
 set $exitmode "(l)ock (h)alt (s)uspend (e)xit"
 mode $exitmode {
-        bindsym l exec "gnome-screensaver-command -l"
+        bindsym l mode "default"; exec "gnome-screensaver-command -l"
         bindsym h exec "systemctl poweroff"
         bindsym s exec "gnome-screensaver-command -l && systemctl suspend"
         bindsym e exec "i3-msg exit"

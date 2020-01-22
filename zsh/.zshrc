@@ -1,3 +1,6 @@
+export TWITCH_INGEST=rtmp://live-ams.twitch.tv/app/$(cat ~/keys/twitch)
+alias start_twitch="ffmpeg -f pulse -i default -video_size 1920x1080 -f x11grab -itsoffset 0.4 -i :0.0 -vcodec libx264 -pix_fmt yuv420p -b:v 1M -acodec aac -b:a 128k -f flv ${TWITCH_INGEST}"
+alias start_rec="ffmpeg -f pulse -i default -video_size 1920x1080 -f x11grab -itsoffset 0.1 -i :0.0 -pix_fmt yuv420p \"/home/tom/Videos/rec-\$(date).mp4\""
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:/snap/bin:$PATH
 
@@ -137,10 +140,10 @@ alias rnd="~/Software/rnd/React\ Native\ Debugger"
 alias c="xclip -selection clipboard"
 #alias c='printf %s "$(< /dev/stdin)" | xclip -selection c'
 alias v="xclip -o -selection clipboard"
-alias ks='kubectl --context aws -n eyra-staging'
-alias kp='kubectl --context aws -n eyra-prd'
-alias kd='kubectl --context minikube -n eyra-dev'
-alias km='microk8s.kubectl -n eyra-dev'
+alias ks='AWS_PROFILE=eyra kubectl --context aws -n eyra-staging'
+alias kp='AWS_PROFILE=eyra kubectl --context aws -n eyra-prd'
+alias kd='AWS_PROFILE=eyra kubectl --context minikube -n eyra-dev'
+alias km='AWS_PROFILE=eyra microk8s.kubectl -n eyra-dev'
 alias watch='watch '
 
 # >>> conda initialize >>>
@@ -162,3 +165,8 @@ unset __conda_setup
 
 source /home/tom/.gvm/scripts/gvm
 gvm use go1.13.5 > /dev/null
+#export AWS_PROFILE=eyra
+export AWS_PROFILE=escience
+alias vim=nvim
+
+source /home/tom/.config/broot/launcher/bash/br
