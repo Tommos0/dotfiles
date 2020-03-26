@@ -169,4 +169,7 @@ gvm use go1.13.5 > /dev/null
 export AWS_PROFILE=escience
 alias vim=nvim
 
-source /home/tom/.config/broot/launcher/bash/br
+source ~/.config/broot/launcher/bash/br
+
+export PATH=$PATH:~/.poetry/bin
+alias l="ls --color=auto -lahrt"
