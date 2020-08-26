@@ -33,19 +33,16 @@ Plug 'yegappan/mru'
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdcommenter'
 Plug 'airblade/vim-gitgutter'
-Plug 'ianks/vim-tsx'
-Plug 'davidhalter/jedi-vim'
+"Plug 'ianks/vim-tsx'
+"Plug 'davidhalter/jedi-vim'
 Plug 'cespare/vim-toml'
 Plug 'hashivim/vim-terraform'
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim'
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   Plug 'HerringtonDarkholme/yats.vim'
   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
- " For Denite features
   Plug 'Shougo/denite.nvim'
 endif
-"Plug 'roxma/nvim-yarp'
-"Plug 'roxma/vim-hug-neovim-rpc'
 let g:deoplete#enable_at_startup = 1
 
 " List ends here. Plugins become visible to Vim after this call.

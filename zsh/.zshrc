@@ -1,11 +1,11 @@
-export TWITCH_INGEST=rtmp://live-ams.twitch.tv/app/$(cat ~/keys/twitch)
-alias start_twitch="ffmpeg -f pulse -i default -video_size 1920x1080 -f x11grab -itsoffset 0.4 -i :0.0 -vcodec libx264 -pix_fmt yuv420p -b:v 1M -acodec aac -b:a 128k -f flv ${TWITCH_INGEST}"
-alias start_rec="ffmpeg -f pulse -i default -video_size 1920x1080 -f x11grab -itsoffset 0.1 -i :0.0 -pix_fmt yuv420p \"/home/tom/Videos/rec-\$(date).mp4\""
+#export TWITCH_INGEST=rtmp://live-ams.twitch.tv/app/$(cat ~/keys/twitch)
+#alias start_twitch="ffmpeg -f pulse -i default -video_size 1920x1080 -f x11grab -itsoffset 0.4 -i :0.0 -vcodec libx264 -pix_fmt yuv420p -b:v 1M -acodec aac -b:a 128k -f flv ${TWITCH_INGEST}"
+#alias start_rec="ffmpeg -f pulse -i default -video_size 1920x1080 -f x11grab -itsoffset 0.1 -i :0.0 -pix_fmt yuv420p \"/home/tom/Videos/rec-\$(date).mp4\""
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:/snap/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/home/tom/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Edefault edotpr
 export EDITOR=vim
@@ -57,7 +57,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -89,12 +89,15 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias fd="fdfind"
+#alias fd="fdfind"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export ANDROID_HOME=$HOME/android-sdk
+#export ANDROID_HOME=$HOME/android-sdk
+export ANDROID_SDK_ROOT=/opt/android-sdk
+export ANDROID_HOME=/opt/android-sdk
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
@@ -109,13 +112,11 @@ alias p=python
 alias x=xdg-open
 # added by travis gem
 
-[ -f /home/tom/.travis/travis.sh ] && source /home/tom/.travis/travis.sh
-
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 #export GOPATH="$HOME/Projects/go"
 export PATH="$PATH:$GOPATH/bin"
-alias pycharm="/home/tom/Software/pycharm/bin/pycharm.sh" 
-export JAVA_HOME=/usr/lib/jvm/java-10-openjdk-amd64
+#alias pycharm="/home/tom/Software/pycharm/bin/pycharm.sh" 
+#export JAVA_HOME=/usr/lib/jvm/java-10-openjdk-amd64
 export PATH=$PATH:$JAVA_HOME/bin
 
 #loadenv() {
@@ -149,27 +150,34 @@ alias watch='watch '
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 
-__conda_setup="$('/home/tom/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/tom/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/tom/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/tom/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
+#l_conda_setup="$('/home/tomk/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+#if [ $? -eq 0 ]; then
+#    eval "$__conda_setup"
+#else
+#    if [ -f "/home/tomk/miniconda3/etc/profile.d/conda.sh" ]; then
+#        . "/home/tomk/miniconda3/etc/profile.d/conda.sh"
+#    else
+#        export PATH="/home/tomk/miniconda3/bin:$PATH"
+#    fi
+#fi
+#unset __conda_setup
 
 # <<< conda initialize <<<
 
-source /home/tom/.gvm/scripts/gvm
-gvm use go1.13.5 > /dev/null
+#source /home/tomk/.gvm/scripts/gvm
+#gvm use go1.13.5 > /dev/null
 #export AWS_PROFILE=eyra
-export AWS_PROFILE=escience
+#export AWS_PROFILE=escience
 alias vim=nvim
 
-source ~/.config/broot/launcher/bash/br
+#source ~/.config/broot/launcher/bash/br
 
-export PATH=$PATH:~/.poetry/bin
+#export PATH=$PATH:~/.poetry/bin
 alias l="ls --color=auto -lahrt"
+
+export DENO_INSTALL="/home/tomk/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+
+
+alias optirun="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME="nvidia" __VK_LAYER_NV_optimus="NVIDIA_only" __GL_SHOW_GRAPHICS_OSD=1"
+alias gl="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
