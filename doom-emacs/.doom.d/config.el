@@ -93,3 +93,24 @@
          (buffer-name (concat "npm " script)))
     (async-shell-command (concat "yarn " script)
                          (get-buffer-create buffer-name))))
+
+(defun org-babel-edit-prep:typescript (babel-info)
+  (setq-local buffer-file-name (->> babel-info caddr (alist-get :tangle)))
+  (lsp))
+
+
+(load (expand-file-name "./ob-tsnode.el"))
+
+(add-to-list 'org-babel-tangle-lang-exts '("typescript" . "ts"))
+
+(defun org-babel-execute:typescript (body params)
+  (let* ((temporary-file-directory (file-name-directory buffer-file-name))
+         (org-babel-temporary-directory (file-name-directory buffer-file-name))
+         (tmp-src-file (org-babel-temp-file "ts-src-" ".ts")))
+
+    (with-temp-file tmp-src-file (insert body))
+    (let ((result (org-babel-eval (format "ts-node --transpile-only %s"
+                            (org-babel-process-file-name tmp-src-file))
+                    "")))
+    (delete-file tmp-src-file)
+    (print result))))
