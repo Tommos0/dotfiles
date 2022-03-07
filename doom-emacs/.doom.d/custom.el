@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(indium plantuml-mode graphviz-dot-mode nvm cask lispy auto-dim-other-buffers smudge tree-sitter-langs tree-sitter))
+   '(js-comint plantuml-mode graphviz-dot-mode smudge tree-sitter-langs tree-sitter))
  '(warning-suppress-log-types
    '((vterm-mode-hook)
      (doom-switch-buffer-hook)
@@ -45,22 +45,22 @@
               (kill-current-buffer)
               (delete-window)))
 
-(defhydra indium-debug-hydra ()
-  "indium debug"
-      ("SPC" indium-debugger-step-over)
-      ("i"   indium-debugger-step-into)
-      ("o"   indium-debugger-step-out)
-      ("c"   indium-debugger-resume)
-      ("l"   indium-debugger-locals)
-      ("s"   indium-debugger-stack-frames)
-      ("q"   indium-debugger-resume)
-      ("h"   indium-debugger-here)
-      ("e"   indium-debugger-evaluate)
-      ("n"   indium-debugger-next-frame)
-      ("p"   indium-debugger-previous-frame))
+;; (defhydra indium-debug-hydra ()
+;;   "indium debug"
+;;       ("SPC" indium-debugger-step-over)
+;;       ("i"   indium-debugger-step-into)
+;;       ("o"   indium-debugger-step-out)
+;;       ("c"   indium-debugger-resume)
+;;       ("l"   indium-debugger-locals)
+;;       ("s"   indium-debugger-stack-frames)
+;;       ("q"   indium-debugger-resume)
+;;       ("h"   indium-debugger-here)
+;;       ("e"   indium-debugger-evaluate)
+;;       ("n"   indium-debugger-next-frame)
+;;       ("p"   indium-debugger-previous-frame))
 
-(map! :localleader
-      "m" #'indium-debug-hydra/body)
+;; (map! :localleader
+;;       "m" #'indium-debug-hydra/body)
 
 (map! :desc "Comment line"
       "C-/" #'evil-commentary-line)
@@ -73,3 +73,10 @@
                     (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
+
+(defun profile-test ()
+  (interactive)
+  (doom/toggle-profiler)
+  (find-file "/home/tomk/git/ah/ah-graphql/graphql-server/src/helpers/error/format-error-output.ts")
+  (run-at-time 2.0 nil #'doom/toggle-profiler))
+

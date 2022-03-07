@@ -50,15 +50,18 @@
 ;(unpin! t)
 
 (package! prettier-js)
-(package! kubernetes)
+;; (package! kubernetes)
 (package! evil-commentary)
 (package! graphql-mode)
-(package! jest)
+;; (package! jest)
 (package! plantuml-mode)
-(package! lispy)
 (package! tree-sitter)
 (package! tree-sitter-langs)
-(package! indium)
+(package! dap-mode)
+(package! auto-dim-other-buffers)
 
-(package! nvm-switch
-  :recipe (:type git :host github :repo "tommos0/nvm-switch.el":branch "main" ))
+(package! nvm-switch)
+  :recipe (:type git :host github :repo "tommos0/nvm-switch.el":branch "main" )
+
+(package! jest-ts
+  :recipe (:type git :host github :repo "tommos0/jest-ts.el" :branch "master" ))

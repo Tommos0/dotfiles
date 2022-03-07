@@ -19,7 +19,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
+;; (setq doom-font (font-spec :family "Hack" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -55,7 +55,7 @@
 ;; add several elements at once (may create double entries,
 ;; but that would not hurt)
 
-(load (expand-file-name "./private.el"))
+(add-to-list 'load-path (expand-file-name "~/.doom.d/"))
 
 (push '("\\.tsx\\'" . web-mode) auto-mode-alist)
 
@@ -65,6 +65,7 @@
 (add-hook 'typescript-mode-hook #'lsp-deferred)
 
 (remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
+(remove-hook 'eshell-mode-hook #'hide-mode-line-mode)
 (add-hook 'vterm-mode-hook
           (lambda () (display-line-numbers-mode t)))
 
@@ -99,7 +100,8 @@
   (lsp))
 
 
-(load (expand-file-name "./ob-tsnode.el"))
+(require 'ob-tsnode)
+(require 'private)
 
 (add-to-list 'org-babel-tangle-lang-exts '("typescript" . "ts"))
 
@@ -114,3 +116,57 @@
                     "")))
     (delete-file tmp-src-file)
     (print result))))
+
+(after! browse-at-remote
+  (add-to-list 'browse-at-remote-remote-type-regexps '("ahold" . "github"))
+  (advice-add 'browse-at-remote--format-region-url-as-github
+            :around
+            (lambda (orig-fun repo-url &rest args)
+              (let ((repo-url (string-replace "https://ahold" "https://github.com" repo-url)))
+                (push repo-url args)
+                (apply orig-fun args))))
+)
+
+(setenv "KUBECONFIG" "/home/tomk/.kube/ah-tst.yaml")
+
+(require 'dap-node)
+
+(defun dap-tsnode-current ()
+       (interactive)
+        (dap-debug
+        (list :name "TS Index"
+                :type "node"
+                :request "launch"
+                :args (buffer-file-name)
+                :runtimeArgs ["--nolazy" "-r" "ts-node/register"]
+                :sourceMaps t
+                :cwd default-directory
+                :protocol "inspector")))
+
+(defun dap-attach()
+       (interactive)
+        (dap-debug
+        (list :name "TS Index"
+                :type "node"
+                :request "attach"
+                :port 9229
+                :program "__ignored"
+                ;:runtimeArgs ["--nolazy" "-r" "ts-node/register"]
+                :sourceMaps t
+                :cwd default-directory
+                :protocol "inspector"
+                :skipFiles [ "<node_internals>/**" ]
+ )))
+
+(scroll-bar-mode t)
+(setq scroll-bar-adjust-thumb-portion nil)
+(setq window-divider-default-right-width 12)
+(global-undo-tree-mode)
+(setq vterm-buffer-name-string "vterm %s")
+
+(defun my-remap-hl-line ()
+  "Remap hl-line face."
+  (face-remap-add-relative 'hl-line `(:background ,(face-background 'default))))
+
+(with-eval-after-load 'treemacs
+  (add-hook 'treemacs-mode-hook #'my-remap-hl-line))
