@@ -80,3 +80,6 @@
   (find-file "/home/tomk/git/ah/ah-graphql/graphql-server/src/helpers/error/format-error-output.ts")
   (run-at-time 2.0 nil #'doom/toggle-profiler))
 
+
+(map! :desc "Jest test"
+      :leader "c T" (lambda (arg) (interactive "P") (save-buffer) (jest-ts-run-test-at-point arg)))

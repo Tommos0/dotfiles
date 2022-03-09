@@ -57,11 +57,10 @@
 (package! plantuml-mode)
 (package! tree-sitter)
 (package! tree-sitter-langs)
-(package! dap-mode)
 (package! auto-dim-other-buffers)
 
-(package! nvm-switch)
-  :recipe (:type git :host github :repo "tommos0/nvm-switch.el":branch "main" )
+(package! nvm-switch
+  :recipe (:type git :host github :repo "tommos0/nvm-switch.el":branch "main" ))
 
 (package! jest-ts
   :recipe (:type git :host github :repo "tommos0/jest-ts.el" :branch "master" ))
