@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "Tom Klaver"
+      user-mail-address "tomklav@gmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -65,7 +65,10 @@
 (add-hook 'typescript-mode-hook #'lsp-deferred)
 
 (remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
-(remove-hook 'eshell-mode-hook #'hide-mode-line-mode)
+
+(after! eshell
+  (remove-hook 'eshell-mode-hook #'hide-mode-line-mode))
+
 (add-hook 'vterm-mode-hook
           (lambda () (display-line-numbers-mode t)))
 
@@ -129,7 +132,7 @@
 
 (setenv "KUBECONFIG" "/home/tomk/.kube/ah-tst.yaml")
 
-(require 'dap-node)
+;; (require 'dap-node)
 
 (defun dap-tsnode-current ()
        (interactive)
@@ -170,3 +173,13 @@
 
 (with-eval-after-load 'treemacs
   (add-hook 'treemacs-mode-hook #'my-remap-hl-line))
+
+(after! tramp
+  (push
+   (cons
+    "k8s"
+    '((tramp-login-program "kubectl")
+      (tramp-login-args (("exec") ("-it") ("%h") ("--") ("/bin/bash")))
+      (tramp-remote-shell "/bin/sh")
+      (tramp-remote-shell-args ("-i") ("-c"))))
+   tramp-methods))

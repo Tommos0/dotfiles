@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(js-comint plantuml-mode graphviz-dot-mode smudge tree-sitter-langs tree-sitter))
+   '(counsel-ffdata kubernetes-tramp js-comint plantuml-mode graphviz-dot-mode smudge tree-sitter-langs tree-sitter))
  '(warning-suppress-log-types
    '((vterm-mode-hook)
      (doom-switch-buffer-hook)
