@@ -131,6 +131,7 @@
 )
 
 (setenv "KUBECONFIG" "/home/tomk/.kube/ah-tst.yaml")
+(setenv "EDITOR" "emacsclient")
 
 ;; (require 'dap-node)
 
@@ -167,19 +168,57 @@
 (global-undo-tree-mode)
 (setq vterm-buffer-name-string "vterm %s")
 
-(defun my-remap-hl-line ()
-  "Remap hl-line face."
-  (face-remap-add-relative 'hl-line `(:background ,(face-background 'default))))
+;; (defun my-remap-hl-line ()
+;;   "Remap hl-line face."
+;;   (face-remap-add-relative 'hl-line `(:background ,(face-background 'default))))
 
-(with-eval-after-load 'treemacs
-  (add-hook 'treemacs-mode-hook #'my-remap-hl-line))
+;; (with-eval-after-load 'treemacs
+;;   (add-hook 'treemacs-mode-hook #'my-remap-hl-line))
 
 (after! tramp
   (push
    (cons
     "k8s"
     '((tramp-login-program "kubectl")
-      (tramp-login-args (("exec") ("-it") ("%h") ("--") ("/bin/bash")))
+      (tramp-login-args (("exec")
+                         ("-it")
+                         ("%h")
+                         ("--")
+                         ("/bin/bash")))
       (tramp-remote-shell "/bin/sh")
-      (tramp-remote-shell-args ("-i") ("-c"))))
+      (tramp-remote-shell-args ("-i")
+                               ("-c"))))
    tramp-methods))
+
+(after! eshell (setq eshell-history-size 1024))
+
+(after! magit (map! :mode magit-status-mode
+                    "M-RET" #'magit-diff-visit-file-other-window))
+
+(after! quickrun (add-hook 'quickrun--mode-hook (lambda ()
+                                                  (display-line-numbers-mode t)
+                                                  (setq hide-mode-line-mode nil))))
+
+(defconst headphone-bluetooth-profile-a2dp "a2dp_sink")
+(defconst headphone-bluetooth-profile-hfp "handsfree_head_unit")
+
+(defun switch-headphone-current-profile ()
+  "(set-card-profile <card_id> <profile>)"
+  (split-string
+   (shell-command-to-string "pacmd dump | grep bluez | grep profile")))
+
+(defun switch-headphone-profile ()
+  (interactive)
+  (let* ((current (switch-headphone-current-profile))
+         (card_id (cadr current))
+         (profile (caddr current))
+         (next_profile (if (string= profile headphone-bluetooth-profile-a2dp)
+                           headphone-bluetooth-profile-hfp
+                           headphone-bluetooth-profile-a2dp)))
+    (shell-command (format "pacmd set-card-profile %s %s"
+                           card_id
+                           next_profile))
+    (message "Switched to %s" next_profile)))
+
+(after! auto-dim-other-buffers
+  (auto-dim-other-buffers-mode))

@@ -3,28 +3,23 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(global-hl-line-mode t)
  '(package-selected-packages
    '(counsel-ffdata kubernetes-tramp js-comint plantuml-mode graphviz-dot-mode smudge tree-sitter-langs tree-sitter))
- '(warning-suppress-log-types
-   '((vterm-mode-hook)
-     (doom-switch-buffer-hook)
-     (iedit)
-     (lsp-mode)
-     (lsp-mode)
-     (lsp-mode)))
- '(warning-suppress-types
-   '((vterm-mode-hook)
-     (doom-switch-buffer-hook)
-     (iedit)
-     (lsp-mode)
-     (lsp-mode)
-     (lsp-mode))))
+ '(warning-suppress-log-types '((vterm-mode-hook) (doom-switch-buffer-hook) (iedit)))
+ '(warning-suppress-types '((vterm-mode-hook) (doom-switch-buffer-hook) (iedit))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(auto-dim-other-buffers-face ((t (:background "#222228"))))
+ '(font-lock-comment-face ((t (:foreground "gray55"))))
+ '(hl-line ((t (:extend t :background "gray28"))))
+ '(line-number ((t (:inherit default :foreground "gray" :strike-through nil :underline nil :slant normal :weight normal))))
+ '(magit-section-highlight ((t (:inherit hl-line :background "gray27"))))
+ '(solaire-default-face ((t (:inherit default :background "#282c34"))))
+ '(solaire-hl-line-face ((t (:inherit hl-line :extend t :background "gray28")))))
 
 (defun toggle-maximize-buffer () "Maximize buffer"
   (interactive)
@@ -83,3 +78,15 @@
 
 (map! :desc "Jest test"
       :leader "c T" (lambda (arg) (interactive "P") (save-buffer) (jest-ts-run-test-at-point arg)))
+
+(defun eshell-append-history ()
+  "Call `eshell-write-history' with the `append' parameter set to `t'."
+  (when eshell-history-ring
+    (let ((newest-cmd-ring (make-ring 1)))
+      (ring-insert newest-cmd-ring (car (ring-elements eshell-history-ring)))
+      (let ((eshell-history-ring newest-cmd-ring))
+        (eshell-write-history eshell-history-file-name t)))))
+
+(after! eshell
+  (setq eshell-save-history-on-exit nil)
+  (add-hook 'eshell-pre-command-hook #'eshell-append-history))

@@ -60,7 +60,11 @@
 (package! auto-dim-other-buffers)
 
 (package! nvm-switch
-  :recipe (:type git :host github :repo "tommos0/nvm-switch.el":branch "main" ))
+  :recipe (:type git :host github :repo "tommos0/nvm-switch.el" :branch "main" ))
 
 (package! jest-ts
   :recipe (:type git :host github :repo "tommos0/jest-ts.el" :branch "master" ))
+
+(package! flymake-shellcheck)
+
+(package! solaire-mode :disable t)
