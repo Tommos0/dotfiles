@@ -68,3 +68,4 @@
 (package! flymake-shellcheck)
 
 (package! solaire-mode :disable t)
+(package! indent-tools)

@@ -132,6 +132,7 @@
 
 (setenv "KUBECONFIG" "/home/tomk/.kube/ah-tst.yaml")
 (setenv "EDITOR" "emacsclient")
+(setenv "DENO_INSTALL" "/home/tomk/.deno")
 
 ;; (require 'dap-node)
 
@@ -203,7 +204,7 @@
 (defconst headphone-bluetooth-profile-hfp "handsfree_head_unit")
 
 (defun switch-headphone-current-profile ()
-  "(set-card-profile <card_id> <profile>)"
+  "returns (set-card-profile <card_id> <profile>)"
   (split-string
    (shell-command-to-string "pacmd dump | grep bluez | grep profile")))
 
