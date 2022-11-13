@@ -25,6 +25,10 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
+
+(setq doom-font (font-spec :family "Source Code Pro" :size 13 :weight 'medium)
+      doom-variable-pitch-font (font-spec :family "sans" :size 13))
+
 (setq doom-theme 'doom-one)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -62,7 +66,9 @@
 (add-hook 'web-mode-hook #'lsp-deferred)
 (add-hook 'web-mode-hook #'prettier-js-mode)
 (add-hook 'typescript-mode-hook #'prettier-js-mode)
-(add-hook 'typescript-mode-hook #'lsp-deferred)
+;; (remove-hook 'typescript-mode-hook #'prettier-js-mode)
+;; (remove-hook 'web-mode-hook #'prettier-js-mode)
+(add-hook 'graphql-mode-hook #'lsp-deferred)
 
 (remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
 
@@ -78,12 +84,19 @@
 (push (expand-file-name "~/.yarn/bin") exec-path)
 
 (after! quickrun
-        (push '("typescript/ts-node" . ((:command . "ts-node")
-                                        (:exec . ("%c --transpile-only -r tsconfig-paths/register %s"))
-                                        (:tempfile . nil)))
-                quickrun--language-alist)
+  (push '("typescript/ts-node" . ((:command . "ts-node")
+                                  (:exec . ("%c --transpile-only -r tsconfig-paths/register %s"))
+                                  (:tempfile . nil)))
+        quickrun--language-alist)
 
-        (quickrun-set-default "typescript" "typescript/ts-node"))
+  (push '("typescript/deno" . ((:command . "deno")
+                               (:exec . ("%c run --allow-all %s"))
+                               (:tempfile . nil)))
+        quickrun--language-alist)
+
+  ;; (quickrun-set-default "typescript" "typescript/ts-node")
+  (quickrun-set-default "typescript" "typescript/deno")
+  )
 
 (defun run-npm-command ()
   (interactive)
@@ -223,3 +236,37 @@
 
 (after! auto-dim-other-buffers
   (auto-dim-other-buffers-mode))
+
+(setenv "PATH" (concat (getenv "PATH") ":/home/tomk/.nvm/versions/node/v16.13.0/bin:/home/tomk/.yarn/bin"))
+(push "/home/tomk/.nvm/versions/node/v16.13.0/bin" exec-path)
+(push "/home/tomk/.yarn/bin" exec-path)
+
+(after! forge (add-to-list 'forge-alist '("ahold"
+                                          "api.github.com"
+                                          "github.com"
+                                          forge-github-repository)))
+
+(setq auth-sources '("~/.authinfo"))
+
+;; (transient-define-infix forge-forge.remote ()
+;;   "Change the local value of the `forge.remote' Git variable."
+;;   :class 'magit--git-variable:choices
+;;   :variable "forge.remote"
+;;   :choices #'magit-list-remotes
+;;   :default "origin")
+
+(after! eshell
+  (require 'em-smart)
+  (setq eshell-where-to-jump 'begin)
+  (setq eshell-review-quick-commands nil)
+  (setq eshell-smart-space-goes-to-end t))
+
+(defun open-in-vscode ()
+  (interactive)
+  (let* ((file (buffer-file-name))
+         (line (number-to-string (line-number-at-pos)))
+         (col (number-to-string (+ 1 (current-column))))
+         (filestr (concat file ":" line ":" col)))
+    (start-process "code" nil "/usr/bin/code" "--goto" filestr)))
+
+(setq evil-escape-key-sequence "qt")

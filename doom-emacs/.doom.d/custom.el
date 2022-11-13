@@ -4,10 +4,20 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(global-hl-line-mode t)
+ '(lsp-eslint-validate '("svelte" "graphql"))
  '(package-selected-packages
-   '(counsel-ffdata kubernetes-tramp js-comint plantuml-mode graphviz-dot-mode smudge tree-sitter-langs tree-sitter))
- '(warning-suppress-log-types '((vterm-mode-hook) (doom-switch-buffer-hook) (iedit)))
- '(warning-suppress-types '((vterm-mode-hook) (doom-switch-buffer-hook) (iedit))))
+   '(keycast counsel-ffdata kubernetes-tramp js-comint plantuml-mode graphviz-dot-mode smudge tree-sitter-langs tree-sitter))
+ '(warning-suppress-log-types
+   '((doom-init-ui-hook)
+     (doom-init-ui-hook)
+     (vterm-mode-hook)
+     (doom-switch-buffer-hook)
+     (iedit)))
+ '(warning-suppress-types
+   '((doom-init-ui-hook)
+     (vterm-mode-hook)
+     (doom-switch-buffer-hook)
+     (iedit))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -32,13 +42,6 @@
 (map! :leader
       :desc "Toggle maximize buffer"
       "w f" #'toggle-maximize-buffer)
-
-(map! :leader
-      :desc "Close buffer and window"
-      "b q" (lambda ()
-              (interactive)
-              (kill-current-buffer)
-              (delete-window)))
 
 ;; (defhydra indium-debug-hydra ()
 ;;   "indium debug"
@@ -90,3 +93,25 @@
 (after! eshell
   (setq eshell-save-history-on-exit nil)
   (add-hook 'eshell-pre-command-hook #'eshell-append-history))
+(put 'erase-buffer 'disabled nil)
+
+(defun dired-jump-and-close ()
+  (interactive)
+  (let ((old-buffer (current-buffer)))
+    (dired-jump)
+    (kill-buffer old-buffer)))
+
+(map! :leader
+      :desc "Close buffer and window"
+      "b q" #'kill-buffer-and-window)
+
+
+(map! :desc "Dired jump and close current buffer"
+      :leader "o =" #'dired-jump-and-close)
+
+(map! :after company
+      :map company-active-map
+      "RET" nil
+      "<return>" nil
+      "TAB" #'company-complete-selection
+      "<tab>" #'company-complete-selection)

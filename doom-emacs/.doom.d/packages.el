@@ -69,3 +69,7 @@
 
 (package! solaire-mode :disable t)
 (package! indent-tools)
+
+(package! edit-indirect
+  :recipe (:host github :repo "Fanael/edit-indirect"
+           :files ("edit-indirect.el")))
