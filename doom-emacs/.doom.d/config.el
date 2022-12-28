@@ -26,7 +26,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 
-(setq doom-font (font-spec :family "Source Code Pro" :size 13 :weight 'medium)
+(setq doom-font (font-spec :family "Source Code Pro" :size 14 :weight 'medium)
       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
 (setq doom-theme 'doom-one)
@@ -234,8 +234,7 @@
                            next_profile))
     (message "Switched to %s" next_profile)))
 
-(after! auto-dim-other-buffers
-  (auto-dim-other-buffers-mode))
+(add-hook 'after-init-hook (lambda () (auto-dim-other-buffers-mode t)))
 
 (setenv "PATH" (concat (getenv "PATH") ":/home/tomk/.nvm/versions/node/v16.13.0/bin:/home/tomk/.yarn/bin"))
 (push "/home/tomk/.nvm/versions/node/v16.13.0/bin" exec-path)
@@ -270,3 +269,47 @@
     (start-process "code" nil "/usr/bin/code" "--goto" filestr)))
 
 (setq evil-escape-key-sequence "qt")
+
+(add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
+
+(add-to-list 'org-src-lang-modes (cons "tsx" 'typescript))
+
+(add-hook! +dap-running-session-mode
+  (set-window-buffer nil (current-buffer)))
+
+(advice-add 'hide-mode-line-mode :around (lambda (orig &optional args) nil))
+
+(defun company-copilot-accept ()
+  "Accept copilot suggestion if company is not active"
+  (interactive)
+  (unless (company--active-p)
+    (copilot-accept-completion)))
+
+(map! :after copilot
+      :map copilot-mode-map
+      :i "TAB" #'company-copilot-accept
+      :leader
+      (:prefix ("l" . "Copilot")
+       :desc "Clear" "c"           #'copilot-clear-overlay
+       :desc "Complete" "l"        #'copilot-complete
+       :desc "Accept" "RET"        #'copilot-accept-completion
+       :desc "Accept (word)" "TAB" #'copilot-accept-completion-by-word
+       :desc "Next" "n"            #'copilot-next-completion
+       :desc "Previous" "p"        #'copilot-previous-completion))
+
+(add-hook! prog-mode 'copilot-mode)
+
+;; set modeline background face
+(set-face-background 'mode-line "#2e3440")
+
+(defun clone-buffer-fundamental ()
+  "Clone the current buffer into a new buffer with fundamental mode."
+  (interactive)
+  (let ((content (buffer-string)))
+    (with-current-buffer (generate-new-buffer (concat "Copy of " (buffer-name)))
+      (insert content)
+      (switch-to-buffer (current-buffer)))))
+
+(setq lsp-headerline-breadcrumb-icons-enable nil)
+(setq lsp-headerline-breadcrumb-enable t)
+(setq lsp-headerline-breadcrumb-enable-diagnostics nil)

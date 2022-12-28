@@ -73,3 +73,8 @@
 (package! edit-indirect
   :recipe (:host github :repo "Fanael/edit-indirect"
            :files ("edit-indirect.el")))
+
+(package! app-launcher :recipe (:type git :host github :repo "SebastienWae/app-launcher"))
+
+(package! copilot
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
